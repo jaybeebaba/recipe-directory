@@ -13,7 +13,7 @@ const Recipe = () => {
 
   const handleClick = () =>{
         projectFirestore.collection("recipes").doc(id).update({
-          title: "Plantain Fritata"
+          title: "Plantain Fritata" 
         })
   }
 
