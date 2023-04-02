@@ -5,39 +5,39 @@ import React, { useEffect, useState } from 'react'
 import RecipeList from "../../components/RecipeList";
 
 const Home = () => {
-  const [recipes, setRecipes] = useState([])
+  const [recipes, setRecipes] = useState(null)
   const [error, setError] = useState("")
-  const [isPending, setIspending] = useState("")
+  const [isPending, setIspending] = useState(false)
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setIspending(true)
-    projectFirestore.collection("recipes").get()
-    .then(snapshot =>{
-      if(snapshot.empty){
-        setError("No recipes to fetch")
-        setIspending(false)
-      }else{
+   const unsub = projectFirestore.collection("recipes")
+      .onSnapshot(snapshot => {
+        if (snapshot.empty) {
+          setError("No recipes to fetch")
+          setIspending(false)
+        } else {
           const results = []
-          snapshot.docs.forEach(doc =>{
-            results.push({ id: doc.id, ...doc.data()})
+          snapshot.docs.forEach(doc => {
+            results.push({ id: doc.id, ...doc.data() })
           })
           setRecipes(results)
           setIspending(false)
         }
-      }).catch(err =>{
+      }, (err) => {
         setError(err.message)
         setIspending(false)
       })
+     return () => unsub()
   }, [])
- 
+
 
   return (
     <div className="home">
       {error && <p className="error">{error}</p>}
       {isPending && <p className="loading">loading...</p>}
       {
-        recipes &&  <RecipeList recipes = {recipes}/>
+        recipes && <RecipeList recipes={recipes} />
       }
     </div>
   )

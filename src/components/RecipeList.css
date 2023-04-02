@@ -37,7 +37,6 @@
     display: block;
     background: #e2e2e2;
     font-size: 0.9em;
-    width: 100px;
     text-align: center;
     width: 120px;
     padding: 8px;
@@ -53,4 +52,13 @@
   .recipe-list .card.dark h3,
   .recipe-list .card.dark div{
     color: #e4e4e4;
+  }
+
+  .trash-can{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    cursor: pointer;
+    filter: invert(60%);
   }
